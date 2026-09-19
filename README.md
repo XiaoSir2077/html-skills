@@ -1,6 +1,6 @@
-# Steven Skills
+# HTML Skills
 
-个人 TRAE Skill Package，用于本地生成高质量内容产物。
+个人 TRAE HTML Skill Package，用于本地生成高质量内容产物。
 
 ## 包含的 Skill
 
@@ -22,10 +22,10 @@
 
 ```bash
 # 1. 把本仓库 clone 到本地任意位置
-git clone https://github.com/yourname/steven-skills.git
+git clone https://github.com/XiaoSir2077/html-skills.git
 
 # 2. 复制到目标项目的 .trae/skills/ 目录下
-cp -r steven-skills/skills/* <你的项目>/.trae/skills/
+cp -r html-skills/skills/* <你的项目>/.trae/skills/
 ```
 
 更新时重复第 2 步即可。
