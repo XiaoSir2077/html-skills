@@ -1,0 +1,13 @@
+# 个人本地配置
+*.log
+.DS_Store
+Thumbs.db
+
+# 测试产物
+outputs/
+*.draft.html
+*_smoke.html
+
+# IDE
+.vscode/
+.idea/

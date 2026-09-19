@@ -1,0 +1,673 @@
+<!-- ============================================================
+     Deep Notes · 组件片段库 v1（活目录，浏览器直接打开可预览）
+     依赖同目录 components.css / components.js（本页用 link/script 引用；
+     成品单文件由 assets/build.js 自动注入二者，无需手工复制 CSS/JS）。
+     按需定向读取：用 Grep 定位「<!-- 编号 名称 -->」标记，只读该 cat-block；
+     每个片段下方的代码框即复制源；标注【需 JS】的还要复制对应 JS 调用。
+     ============================================================ -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deep Notes · 组件片段库</title>
+  <link rel="stylesheet" href="components.css">
+  <script src="components.js"></script>
+  <style>
+    /* ===== 仅本目录页使用的展示样式（.cat- 前缀，勿复制到成品里）===== */
+    body { background: var(--bg); }
+    .cat-head { max-width: 960px; margin: 0 auto; padding: 48px 24px 8px; }
+    .cat-head h1 { font-size: 26px; margin-bottom: 8px; }
+    .cat-head p { color: var(--muted); font-size: 14px; }
+    .cat-wrap { max-width: 960px; margin: 0 auto; padding: 24px 24px 80px; }
+    .cat-block {
+      border: 1px solid var(--border); border-radius: 14px;
+      padding: 22px 24px; margin: 22px 0; background: var(--bg2);
+    }
+    .cat-block > h3 { font-size: 16px; color: var(--accent-2); margin: 0 0 4px; }
+    .cat-use { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+    .cat-use b { color: var(--text-2); }
+    .cat-code {
+      background: #0A0F1C; border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 16px; margin-top: 14px;
+      font-family: "SFMono-Regular", Consolas, "Courier New", monospace;
+      font-size: 12px; line-height: 1.6; color: #A7F3D0;
+      overflow-x: auto; white-space: pre;
+    }
+    .cat-code + .cat-code { margin-top: 8px; }
+    .cat-code .code-lang {
+      display: block; color: var(--muted); font-size: 11px;
+      margin-bottom: 8px; font-family: inherit;
+    }
+    .cat-divider { text-align: center; color: var(--muted); font-size: 13px;
+      letter-spacing: 3px; margin: 40px 0 8px; }
+  </style>
+</head>
+<body data-theme="psyche">
+
+<div class="cat-head">
+  <h1>Deep Notes · 标准组件片段库</h1>
+  <p>19 个标准组件 + 3 个进阶定制配方。复制片段 → 粘贴到 template.html 的模块插槽；禁止自创类名。</p>
+</div>
+
+<div class="cat-wrap">
+
+  <div class="cat-divider">A · 结构类组件</div>
+
+  <!-- 1 Hero -->
+  <div class="cat-block">
+    <h3>1. Hero 页头（塔尖）</h3>
+    <p class="cat-use">每篇必有且只有一个。<b>h1 是塔尖结论</b>，不是主题名词。</p>
+    <div class="demo-live">
+      <header class="hero">
+        <div class="hero__inner">
+          <span class="hero__eyebrow">30 分钟读懂 · 经济学</span>
+          <h1>人们会对激励做出反应——这一句话能解释 80% 的社会现象</h1>
+          <p class="hero__summary">经济学不是教你赚钱，而是给你一副看世界的眼镜：成本是放弃的最大代价，价格是信号，激励会改变行为。</p>
+          <div class="hero__meta">
+            <span>阅读时长<strong>约 30 分钟</strong></span>
+            <span>核心模块<strong>4 个</strong></span>
+            <span>自测题<strong>8 道</strong></span>
+          </div>
+        </div>
+      </header>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 2 TOC -->
+  <div class="cat-block">
+    <h3>2. toc 目录导航</h3>
+    <p class="cat-use">锚点指向各 section 的 id；平滑滚动由 components.js <b>自动绑定</b>。</p>
+    <div class="demo-live">
+      <nav class="toc">
+        <div class="toc__title">📑 本文目录</div>
+        <ul>
+          <li><a href="#part1">一、人们如何做决策</a></li>
+          <li><a href="#part2">二、人们如何相互影响</a></li>
+          <li><a href="#part3">三、整体经济如何运行</a></li>
+          <li><a href="#quiz">自测：你真的懂了吗</a></li>
+        </ul>
+      </nav>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 3 part-divider -->
+  <div class="cat-block">
+    <h3>3. part-divider 章节分隔</h3>
+    <p class="cat-use">每个大模块前放一个，和 <b>&lt;section id&gt;</b> 配对。</p>
+    <div class="demo-live">
+      <div class="part-divider"><span class="part-divider__label">PART 01 · 人们如何做决策</span></div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <div class="cat-divider">B · 内容类组件</div>
+
+  <!-- 4 callout -->
+  <div class="cat-block">
+    <h3>4. callout 提示框（5 种语义）</h3>
+    <p class="cat-use"><b>--insight</b> 核心洞察 / <b>--warn</b> 注意 / <b>--danger</b> 反直觉警告 / <b>--success</b> 正确做法 / <b>--info</b> 补充信息。每篇至少 1 个 insight。</p>
+    <div class="demo-live">
+      <div class="callout callout--insight">
+        <div class="callout__label">💡 核心洞察</div>
+        <p>你做选择的真正成本，不是花出去的钱，而是你因此放弃的最好的那个选项。</p>
+      </div>
+      <div class="callout callout--warn">
+        <div class="callout__label">⚠️ 容易混淆</div>
+        <p>「沉没成本不是成本」——钱已经花了、时间已经没了，决策时就不该再看它。</p>
+      </div>
+      <div class="callout callout--danger">
+        <div class="callout__label">🚨 反直觉</div>
+        <p>限价令往往伤害的正是它想保护的人：租金管制会让房源更少、更差。</p>
+      </div>
+      <div class="callout callout--success">
+        <div class="callout__label">✅ 可以这样做</div>
+        <p>做决策前问一句：这个选择让我放弃了什么？那才是它的真实价格。</p>
+      </div>
+      <div class="callout callout--info">
+        <div class="callout__label">ℹ️ 补充</div>
+        <p>「边际」就是在现有基础上「再多一点点」的意思。</p>
+      </div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 5 quote -->
+  <div class="cat-block">
+    <h3>5. quote 金句框</h3>
+    <p class="cat-use">模块收束或全文结尾用；一句话，值得抄走。</p>
+    <div class="demo-live">
+      <div class="quote">
+        <div class="quote__text">「经济学是一门研究人的学问，它只是恰好使用了数学语言。」</div>
+        <div class="quote__author">—— 改自米塞斯</div>
+      </div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 6 think -->
+  <div class="cat-block">
+    <h3>6. think 思考框</h3>
+    <p class="cat-use">抛出问题逼读者停下来想，再接正文揭晓。费曼式互动。</p>
+    <div class="demo-live">
+      <div class="think">
+        <div class="think__label">🤔 先想一想</div>
+        <p>一杯免费的奶茶，成本真的是零吗？谁为它付了钱？</p>
+      </div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 7 story -->
+  <div class="cat-block">
+    <h3>7. story 故事 / 案例框</h3>
+    <p class="cat-use">概念讲完立刻配一个真实或生活化案例；<b>每篇案例优先于抽象论述</b>。</p>
+    <div class="demo-live">
+      <div class="story">
+        <span class="story__label">真实案例</span>
+        <div class="story__title">演唱会门票的机会成本</div>
+        <p>你抢到一张原价 500 元、黄牛价 3000 元的门票。去看演唱会的成本不是 500 元，而是 3000 元——因为你本可以把票卖掉。很多人想不通这一点，所以座无虚席但其实「亏了」的人到处都是。</p>
+      </div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <div class="cat-divider">C · 结构展示类组件</div>
+
+  <!-- 8 cards -->
+  <div class="cat-block">
+    <h3>8. cards 通用卡片网格（2/3/4 列 + 变体）</h3>
+    <p class="cat-use">一切「同质并列」都用它：默认 3 列，<b>cards--2 / cards--4</b> 调列数；<b>card--center</b> 居中，<b>card--featured</b> 高亮，card__num 带序号。</p>
+    <div class="demo-live">
+      <div class="cards">
+        <div class="card card--center">
+          <div class="card__icon">💰</div>
+          <div class="card__title">成本</div>
+          <div class="card__desc">放弃的最大代价</div>
+        </div>
+        <div class="card card--center card--featured">
+          <div class="card__icon">📊</div>
+          <div class="card__title">边际</div>
+          <div class="card__desc">多一点点的权衡</div>
+        </div>
+        <div class="card card--center">
+          <div class="card__icon">🎯</div>
+          <div class="card__title">激励</div>
+          <div class="card__desc">行为随奖惩改变</div>
+        </div>
+      </div>
+      <div class="cards cards--4">
+        <div class="card"><div class="card__num">1</div><div class="card__title">取舍</div><div class="card__desc">天下没有免费午餐</div></div>
+        <div class="card"><div class="card__num">2</div><div class="card__title">成本</div><div class="card__desc">代价是放弃项</div></div>
+        <div class="card"><div class="card__num">3</div><div class="card__title">边际</div><div class="card__desc">看增量不看总量</div></div>
+        <div class="card"><div class="card__num">4</div><div class="card__title">激励</div><div class="card__desc">人会回应激励</div></div>
+      </div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 9 steps -->
+  <div class="cat-block">
+    <h3>9. steps 步骤卡（纵向序列）</h3>
+    <p class="cat-use">流程、方法论、行动清单。step__key 写该步关键口诀（可选）。</p>
+    <div class="demo-live">
+      <div class="steps">
+        <div class="step">
+          <div class="step__num">1</div>
+          <div class="step__body">
+            <div class="step__title">先问「我放弃了什么」</div>
+            <div class="step__desc">把每个选项背后被放弃的最好选择摆上桌，看不见的成本才是决策的关键。</div>
+            <div class="step__key">口诀：成本 = 放弃的最大代价</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__num">2</div>
+          <div class="step__body">
+            <div class="step__title">只算边际账</div>
+            <div class="step__desc">已经投入的不要看，只比较「再多做一点」的新增收益和新增成本。</div>
+            <div class="step__key">口诀：沉没成本不是成本</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 10 compare -->
+  <div class="cat-block">
+    <h3>10. compare 对比卡（褒贬 / 中立）</h3>
+    <p class="cat-use"><b>--bad / --good</b> 用于对错对比；<b>--a / --b</b> 用于两种中立方案对比。</p>
+    <div class="demo-live">
+      <div class="compare">
+        <div class="compare__col compare__col--bad">
+          <div class="compare__title">❌ 会计思维</div>
+          <ul><li>只看花出去的钱</li><li>盯着沉没成本不放</li></ul>
+        </div>
+        <div class="compare__col compare__col--good">
+          <div class="compare__title">✅ 经济思维</div>
+          <ul><li>算放弃的最大代价</li><li>只看边际增量</li></ul>
+        </div>
+      </div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 11 stats -->
+  <div class="cat-block">
+    <h3>11. stats 数据面板</h3>
+    <p class="cat-use">关键数字必须<b>真实可核查</b>；数字服务于结论，不做数字堆砌。</p>
+    <div class="demo-live">
+      <div class="stats">
+        <div class="stat"><div class="stat__num">10</div><div class="stat__label">大原理</div><div class="stat__note">三大板块构成</div></div>
+        <div class="stat"><div class="stat__num">4</div><div class="stat__label">决策原理</div><div class="stat__note">个人如何选择</div></div>
+        <div class="stat"><div class="stat__num">3</div><div class="stat__label">互动原理</div><div class="stat__note">人们如何交易</div></div>
+        <div class="stat"><div class="stat__num">3</div><div class="stat__label">运行原理</div><div class="stat__note">经济整体</div></div>
+      </div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 12 timeline -->
+  <div class="cat-block">
+    <h3>12. timeline 时间线</h3>
+    <p class="cat-use">思想演进、发展阶段、历史脉络。</p>
+    <div class="demo-live">
+      <div class="timeline">
+        <div class="timeline__item">
+          <div class="timeline__time">1776</div>
+          <div class="timeline__title">《国富论》</div>
+          <div class="timeline__desc">斯密提出「看不见的手」。</div>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__time">1890</div>
+          <div class="timeline__title">《经济学原理》</div>
+          <div class="timeline__desc">马歇尔奠定供求分析框架。</div>
+        </div>
+      </div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 13 pitfalls -->
+  <div class="cat-block">
+    <h3>13. pitfalls 误区网格</h3>
+    <p class="cat-use">每个模块可配 4~6 条常见误区；一条一卡，说清「错在哪 + 正解是什么」。</p>
+    <div class="demo-live">
+      <div class="pitfalls">
+        <div class="pitfall">
+          <div class="pitfall__title"><span class="num">1</span>把成本等同于花钱</div>
+          <div class="pitfall__desc">成本是放弃的最大代价，免费的东西也可能很贵。</div>
+        </div>
+        <div class="pitfall">
+          <div class="pitfall__title"><span class="num">2</span>纠结沉没成本</div>
+          <div class="pitfall__desc">「来都来了」是最常见的决策陷阱。</div>
+        </div>
+      </div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <div class="cat-divider">D · 互动类组件</div>
+
+  <!-- 14 quiz-item -->
+  <div class="cat-block">
+    <h3>14. quiz-item 自测题（点击展开，默认首选）</h3>
+    <p class="cat-use"><b>无需写一行 JS</b>，components.js 全局委托自动绑定。6~8 道，考理解不考记忆；答案要讲「为什么」。</p>
+    <div class="demo-live">
+      <div class="quiz-item">
+        <div class="quiz-item__q">小王花 2000 元办了健身年卡，去了两次就不想去了。他该逼自己去吗？</div>
+        <div class="quiz-item__a">不该把 2000 元当理由——那是沉没成本。该只比较「今天去健身」的边际收益（健康、心情）和边际成本（两小时劳累）。年费唯一的作用是提醒他下次别冲动办卡。</div>
+      </div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 15 quiz-multi -->
+  <div class="cat-block">
+    <h3>15. quiz-multi 计分选择题【需 JS】</h3>
+    <p class="cat-use">需要分数和判题氛围时用。HTML 放空容器，题目数据写在 JS 里。</p>
+    <div class="demo-live" data-nocopy>
+      <div class="quiz-multi" id="demo-mq"></div>
+    </div>
+    <pre class="cat-code"><span class="code-lang">HTML：</span>&lt;div class="quiz-multi" id="my-quiz"&gt;&lt;/div&gt;</pre>
+    <pre class="cat-code"><span class="code-lang">JS（槽位 D）：</span>DN.scoredQuiz('#my-quiz', [
+  {
+    q: '以下哪句话体现了「机会成本」？',
+    options: [
+      { text: '这件衣服打五折，省了 200 元' },
+      { text: '用周末去加班，就没法陪孩子' , ok: true },
+      { text: '电影票不能退，不看就浪费了' }
+    ],
+    explain: '只有第二项在比较「放弃了什么」。第一项只看账面，第三项被沉没成本绑架。'
+  },
+  {
+    q: '判断：「限价房能让更多穷人住上房」这个直觉（ ）',
+    options: [
+      { text: '对，价格低了买的人更多' },
+      { text: '错，供给会减少且可能走后门', ok: true }
+    ],
+    explain: '价格被压住后，建房与出租的激励下降，还会催生排队、关系户等非价格竞争。'
+  }
+], {
+  verdict: function (score, total) {
+    return '得分 ' + score + ' / ' + total +
+      (score === total ? '，经济学直觉已经建立！' : '，回看对应模块再过一遍。');
+  }
+});</pre>
+  </div>
+
+  <!-- 16 slider-demo -->
+  <div class="cat-block">
+    <h3>16. slider-demo 滑块实验【需 JS】</h3>
+    <p class="cat-use">让读者亲手拨动变量看结果变化。联动逻辑写在 compute 回调里，返回结果区 HTML。</p>
+    <div class="demo-live" data-nocopy>
+      <div id="demo-slider"></div>
+    </div>
+    <pre class="cat-code"><span class="code-lang">HTML：</span>&lt;div id="my-demo"&gt;&lt;/div&gt;</pre>
+    <pre class="cat-code"><span class="code-lang">JS（槽位 D）：</span>DN.sliders('#my-demo', {
+  title: '定价实验：你的利润怎么变？',
+  sliders: [
+    { key: 'price', label: '单价', min: 1, max: 20, step: 1, value: 10, unit: '元' },
+    { key: 'demand', label: '需求量', min: 0, max: 100, step: 1, value: 50, unit: '件' }
+  ],
+  compute: function (v) {
+    var profit = (v.price - 4) * v.demand;          // 单位成本 4 元
+    return '收入 <b>' + (v.price * v.demand) +
+      '</b> 元，估算利润 <b>' + profit + '</b> 元';
+  }
+});</pre>
+  </div>
+
+  <!-- 17 btn -->
+  <div class="cat-block">
+    <h3>17. btn 按钮</h3>
+    <p class="cat-use">重交互控制面板用；主操作用 <b>btn--primary</b>，图表切换激活态加 <b>is-active</b>。</p>
+    <div class="demo-live">
+      <button class="btn btn--primary" type="button">主要操作</button>
+      <button class="btn" type="button">次要操作</button>
+      <button class="btn is-active" type="button">激活态</button>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 18 chart radar -->
+  <div class="cat-block">
+    <h3>18. chart 图表面板 + 雷达图【需 JS】</h3>
+    <p class="cat-use">多维评估用（如五力模型）。DN.radar 自适应宽度与高分屏，主题色自动读取。</p>
+    <div class="demo-live">
+      <div class="chart">
+        <div class="chart__title">行业吸引力雷达图（满分 5）</div>
+        <canvas id="demo-radar"></canvas>
+        <div class="chart__note">分数越低、越靠近中心，说明这个方向的竞争压力越大。</div>
+      </div>
+    </div>
+    <pre class="cat-code"><span class="code-lang">HTML：</span>&lt;div class="chart"&gt;
+  &lt;div class="chart__title"&gt;行业吸引力雷达图（满分 5）&lt;/div&gt;
+  &lt;canvas id="my-radar"&gt;&lt;/canvas&gt;
+  &lt;div class="chart__note"&gt;分数越低压力越大。&lt;/div&gt;
+&lt;/div&gt;</pre>
+    <pre class="cat-code"><span class="code-lang">JS（槽位 D）：</span>DN.radar('#my-radar', {
+  labels: ['现有竞争', '潜在进入者', '替代品', '买方议价', '供方议价'],
+  values: [2.5, 4, 3, 2, 4.5],   // 与 labels 等长，取值 0~max
+  max: 5,
+  levels: 4
+});</pre>
+  </div>
+
+  <!-- 19 matrix -->
+  <div class="cat-block">
+    <h3>19. matrix 矩阵 / 博弈表【声明式，无需 JS】</h3>
+    <p class="cat-use">博弈收益、二维分类。数据格加 <b>data-r / data-c</b>（从 0 起）；
+      按钮加 <b>data-matrix="容器id" data-pick="r0|c1|0,1"</b> 即自动高亮整行 / 整列 / 单格。</p>
+    <div class="demo-live">
+      <div class="matrix" id="demo-matrix">
+        <div class="matrix__row">
+          <div class="matrix__cell matrix__cell--head"></div>
+          <div class="matrix__cell matrix__cell--head">对方合作</div>
+          <div class="matrix__cell matrix__cell--head">对方背叛</div>
+        </div>
+        <div class="matrix__row">
+          <div class="matrix__cell matrix__cell--dim">我合作</div>
+          <div class="matrix__cell" data-r="0" data-c="0">+3, +3</div>
+          <div class="matrix__cell" data-r="0" data-c="1">−2, +5</div>
+        </div>
+        <div class="matrix__row">
+          <div class="matrix__cell matrix__cell--dim">我背叛</div>
+          <div class="matrix__cell" data-r="1" data-c="0">+5, −2</div>
+          <div class="matrix__cell" data-r="1" data-c="1">0, 0</div>
+        </div>
+      </div>
+      <p style="margin:10px 0 0">
+        <button class="btn btn--primary" type="button" data-matrix="demo-matrix" data-pick="r0">我选合作</button>
+        <button class="btn btn--primary" type="button" data-matrix="demo-matrix" data-pick="r1">我选背叛</button>
+        <button class="btn" type="button" data-matrix="demo-matrix" data-pick="1,1">双方都背叛</button>
+      </p>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <div class="cat-divider">E · 进阶定制配方（标准组件不够时才用，样式已自带，整段复制）</div>
+
+  <!-- 进阶 1：逐步揭示（剥洋葱 / 5 Whys 同款机制）-->
+  <div class="cat-block">
+    <h3>配方 1. 逐步揭示（剥洋葱 / 5 Whys）</h3>
+    <p class="cat-use">第一性原理模块常用：点一下揭示一层，引导「做减法」。两个皮肤同一机制，整段（含 style、script）自包含复制。5 Whys 把层文案换成问答即可。</p>
+    <div class="demo-live">
+      <div class="xpeel">
+        <style>
+          .xpeel { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 10px 0; }
+          .xpeel-layer { border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin: 8px 0;
+            font-size: 14px; color: var(--text-2); display: none; }
+          .xpeel-layer.is-show { display: block; background: var(--accent-soft);
+            border-color: color-mix(in srgb, var(--accent) 45%, transparent); color: var(--text); }
+          .xpeel-layer b { color: var(--accent-2); }
+        </style>
+        <div class="xpeel-layer is-show"><b>表层：</b>电池太贵，所以电动车难普及。</div>
+        <div class="xpeel-layer"><b>再剥：</b>电池贵是因为原材料和组装成本高。</div>
+        <div class="xpeel-layer"><b>再剥：</b>原材料（钴、镍）本身在地壳里并不稀有，贵的是开采与精炼产能。</div>
+        <div class="xpeel-layer"><b>基本事实：</b>电池的本质是铁、铝、锂等原子的排列组合——原子在现货市场都能买到。</div>
+        <p style="margin-top:12px">
+          <button class="btn btn--primary" type="button" data-xpeel="next">往下剥一层</button>
+          <button class="btn" type="button" data-xpeel="reset">重置</button>
+        </p>
+        <script>
+          (function () {
+            var box = document.currentScript.closest('.xpeel');
+            var layers = box.querySelectorAll('.xpeel-layer');
+            box.querySelector('[data-xpeel="next"]').addEventListener('click', function () {
+              var shown = box.querySelectorAll('.xpeel-layer.is-show').length;
+              if (shown < layers.length) layers[shown].classList.add('is-show');
+            });
+            box.querySelector('[data-xpeel="reset"]').addEventListener('click', function () {
+              layers.forEach(function (l, i) { l.classList.toggle('is-show', i === 0); });
+            });
+          })();
+        </script>
+      </div>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 进阶 2：供求曲线 -->
+  <div class="cat-block">
+    <h3>配方 2. Canvas 二维曲线图（供求曲线同款）</h3>
+    <p class="cat-use">经济学类主题静态示意图。改两条线的斜率与交点文案即可，配色自动读主题变量。</p>
+    <div class="demo-live">
+      <div class="chart">
+        <div class="chart__title">供给与需求决定均衡价格</div>
+        <canvas id="demo-curve" style="height:320px"></canvas>
+        <div class="chart__note">绿线向上：价格越高越愿意生产；紫线向下：价格越低越愿意买。交点即均衡。</div>
+      </div>
+      <script>
+        (function () {
+          function drawMarket(canvasId, title) {
+            var cv = document.getElementById(canvasId);
+            var ctx = cv.getContext('2d');
+            var dpr = window.devicePixelRatio || 1;
+            function paint() {
+              var W = cv.clientWidth || 500, H = 320;
+              cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+              ctx.clearRect(0, 0, W, H);
+              var accent = getComputedStyle(document.body).getPropertyValue('--accent').trim() || '#8B5CF6';
+              var green = getComputedStyle(document.body).getPropertyValue('--success').trim() || '#10B981';
+              var muted = getComputedStyle(document.body).getPropertyValue('--muted').trim() || '#94A3B8';
+              var pad = 46, x0 = pad, y0 = H - pad, x1 = W - pad, y1 = pad;
+              ctx.strokeStyle = muted; ctx.lineWidth = 1.5;
+              ctx.beginPath(); ctx.moveTo(x0, y1); ctx.lineTo(x0, y0); ctx.lineTo(x1, y0); ctx.stroke();
+              ctx.fillStyle = muted; ctx.font = '12px sans-serif';
+              ctx.fillText('价格', x0 - 30, y1 + 4); ctx.fillText('数量', x1 - 28, y0 + 22);
+              function line(color, p1, p2, label, lx, ly) {
+                ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+                ctx.beginPath(); ctx.moveTo(x0 + p1[0] * (x1 - x0), y0 - p1[1] * (y0 - y1));
+                ctx.lineTo(x0 + p2[0] * (x1 - x0), y0 - p2[1] * (y0 - y1)); ctx.stroke();
+                ctx.fillStyle = color; ctx.fillText(label, lx, ly);
+              }
+              line(green, [0.08, 0.08], [0.92, 0.86], '供给 S', x1 - 56, y0 - 0.86 * (y0 - y1) + 4);
+              line(accent, [0.08, 0.86], [0.92, 0.1], '需求 D', x1 - 56, y0 - 0.1 * (y0 - y1) - 6);
+              // 均衡点
+              var t = 0.47, ex = x0 + (0.08 + (0.92 - 0.08) * t) * (x1 - x0),
+                  ey = y0 - (0.86 + (0.1 - 0.86) * t) * (y0 - y1);
+              ctx.fillStyle = '#FBBF24'; ctx.beginPath(); ctx.arc(ex, ey, 5, 0, 7); ctx.fill();
+              ctx.fillStyle = '#FDE68A'; ctx.fillText('均衡点', ex + 10, ey - 8);
+            }
+            paint(); window.addEventListener('resize', paint);
+          }
+          drawMarket('demo-curve');
+        })();
+      </script>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+  <!-- 进阶 3：种群模拟 -->
+  <div class="cat-block">
+    <h3>配方 3. setInterval 种群模拟（鹰鸽博弈同款）</h3>
+    <p class="cat-use">演化博弈 / 动态系统主题用：每一代按收益矩阵复制。可改 payoff 矩阵与种群数，整段自包含。</p>
+    <div class="demo-live">
+      <div class="chart">
+        <div class="chart__title">鹰派与鸽派的演化模拟（60 个个体）</div>
+        <canvas id="demo-sim" style="height:220px"></canvas>
+        <div class="chart__controls" style="margin-top:12px">
+          <button class="btn btn--primary" type="button" data-sim="start">开始演化</button>
+          <button class="btn" type="button" data-sim="step">单步一代</button>
+          <button class="btn" type="button" data-sim="reset">重置</button>
+        </div>
+        <div class="chart__note" id="demo-sim-note" data-reset-text="红=鹰派，绿=鸽派。收益矩阵：鹰遇鹰两败俱伤，鹰遇鸽通吃，鸽遇鸽平分。">红=鹰派，绿=鸽派。收益矩阵：鹰遇鹰两败俱伤，鹰遇鸽通吃，鸽遇鸽平分。</div>
+      </div>
+      <script>
+        (function () {
+          var N = 60, pop = [], timer = null;
+          var cv = document.getElementById('demo-sim'), ctx = cv.getContext('2d');
+          // payoff[a][b]：a 策略对 b 策略的收益。0=鹰,1=鸽
+          var payoff = [[-1, 2], [0, 1]];
+          function reset() {
+            pop = []; for (var i = 0; i < N; i++) pop.push(Math.random() < 0.5 ? 0 : 1);
+            paint(); note();
+          }
+          function step() {
+            var hawk = pop.filter(function (s) { return s === 0; }).length;
+            var pHawk = hawk / N, fit = [0, 0];
+            fit[0] = payoff[0][0] * pHawk + payoff[0][1] * (1 - pHawk);
+            fit[1] = payoff[1][0] * pHawk + payoff[1][1] * (1 - pHawk);
+            // 轮盘赌式复制：适应度平移为非正也不会灭绝
+            var w = pop.map(function (s) { return fit[s] + 3; });
+            var sum = w.reduce(function (a, b) { return a + b; }, 0);
+            var next = [];
+            for (var i = 0; i < N; i++) {
+              var r = Math.random() * sum, acc = 0, idx = 0;
+              for (var j = 0; j < N; j++) { acc += w[j]; if (r <= acc) { idx = j; break; } }
+              next.push(pop[idx]);
+            }
+            pop = next; paint(); note();
+          }
+          function paint() {
+            var dpr = window.devicePixelRatio || 1, W = cv.clientWidth || 480, H = 220;
+            cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.clearRect(0, 0, W, H);
+            var cols = 12, r = 11, gx = (W - cols * 28) / 2 + r;
+            pop.forEach(function (s, i) {
+              var x = gx + (i % cols) * 28, y = r + Math.floor(i / cols) * 28;
+              ctx.fillStyle = s === 0 ? '#DC2626' : '#10B981';
+              ctx.beginPath(); ctx.arc(x, y, r - 2, 0, 7); ctx.fill();
+            });
+          }
+          function note() {
+            var hawk = pop.filter(function (s) { return s === 0; }).length;
+            document.getElementById('demo-sim-note').textContent =
+              '当前鹰派 ' + hawk + ' / 鸽派 ' + (N - hawk) +
+              '——鹰派太多会互相消耗，最终比例趋于稳定。';
+          }
+          cv.closest('.chart').querySelectorAll('[data-sim]').forEach(function (b) {
+            b.addEventListener('click', function () {
+              var act = b.dataset.sim;
+              if (act === 'start') {
+                if (timer) return; timer = setInterval(step, 250);
+              } else if (act === 'step') { step(); }
+              else { clearInterval(timer); timer = null; reset(); }
+            });
+          });
+          reset();
+        })();
+      </script>
+    </div>
+    <pre class="cat-code"></pre>
+  </div>
+
+</div>
+
+<script>
+/* ===== 目录页专用：把每个 .demo-live 的 HTML 序列化进下方代码框 =====
+   data-nocopy 的容器（内含 JS 动态生成结果）跳过，代码框已手写。 */
+document.querySelectorAll('.demo-live').forEach(function (live) {
+  if (live.hasAttribute('data-nocopy')) return;
+  var code = live.nextElementSibling;
+  if (code && code.classList.contains('cat-code') && !code.dataset.filled) {
+    /* 克隆一份再还原内联脚本运行时留下的痕迹，保证代码框 = 干净源码 */
+    var clone = live.cloneNode(true);
+    clone.querySelectorAll('canvas').forEach(function (cv) {
+      cv.removeAttribute('width');
+      cv.removeAttribute('height');
+    });
+    clone.querySelectorAll('[data-reset-text]').forEach(function (e) {
+      e.textContent = e.getAttribute('data-reset-text');
+    });
+    code.textContent = clone.innerHTML
+      .replace(/^\s*\n/, '')
+      .replace(/\n\s*$/, '')
+      .replace(/^ {6}/gm, '')
+      .replace(/^ {4}/gm, '');
+    code.dataset.filled = '1';
+  }
+});
+/* 片段库内的动态演示（仅本页生效） */
+DN.scoredQuiz('#demo-mq', [
+  { q: '以下哪句话体现了「机会成本」？',
+    options: [{ text: '这件衣服打五折，省了 200 元' },
+              { text: '用周末去加班，就没法陪孩子', ok: true },
+              { text: '电影票不能退，不看就浪费了' }],
+    explain: '只有第二项在比较「放弃了什么」。' },
+  { q: '判断：限价房一定让更多穷人住上房。',
+    options: [{ text: '对' }, { text: '错', ok: true }],
+    explain: '限价会压低供给激励，并催生排队、关系户等非价格竞争。' }
+], { verdict: function (s, t) { return '得分 ' + s + ' / ' + t; } });
+
+DN.sliders('#demo-slider', {
+  title: '定价实验：你的利润怎么变？',
+  sliders: [
+    { key: 'price', label: '单价', min: 1, max: 20, step: 1, value: 10, unit: '元' },
+    { key: 'demand', label: '需求量', min: 0, max: 100, step: 1, value: 50, unit: '件' }
+  ],
+  compute: function (v) {
+    return '收入 <b>' + (v.price * v.demand) + '</b> 元，估算利润 <b>' + ((v.price - 4) * v.demand) + '</b> 元';
+  }
+});
+
+DN.radar('#demo-radar', {
+  labels: ['现有竞争', '潜在进入者', '替代品', '买方议价', '供方议价'],
+  values: [2.5, 4, 3, 2, 4.5], max: 5
+});
+</script>
+</body>
+</html>
