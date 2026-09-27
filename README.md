@@ -18,17 +18,42 @@
 
 ## 安装方式
 
-当前 TRAE 没有 Skill 商店，安装方式为手动复制：
+### npx skills 一键安装（推荐）
+
+前置条件：本机已安装 Node.js 18+。本仓库遵循开放 [Agent Skills 规范](https://skills.sh/)，用通用安装器 [`skills`](https://www.npmjs.com/package/skills) 安装，会自动识别 Trae CN（`~/.trae-cn/skills`）等 70+ 种 Agent。
+
+```bash
+# 交互式：自动检测已安装的 Agent，选择装哪些 skill
+npx skills add XiaoSir2077/html-skills
+
+# Trae CN 用户一条命令搞定（-g 全局安装，所有项目可用；-y 跳过确认）
+npx skills add XiaoSir2077/html-skills -a trae-cn -g -y
+
+# 只装到当前项目（随项目 git 提交，去掉 -g）
+npx skills add XiaoSir2077/html-skills -a trae-cn -y
+
+# 先看看仓库里有哪些 skill，不安装
+npx skills add XiaoSir2077/html-skills --list
+```
+
+安装后重启或重载 TRAE 即可生效。以后更新：
+
+```bash
+npx skills update        # 更新所有已安装 skill
+npx skills list          # 查看已安装 skill
+npx skills remove deep-notes research-report  # 卸载
+```
+
+### 手动复制
 
 ```bash
 # 1. 把本仓库 clone 到本地任意位置
 git clone https://github.com/XiaoSir2077/html-skills.git
 
-# 2. 复制到目标项目的 .trae/skills/ 目录下
-cp -r html-skills/skills/* <你的项目>/.trae/skills/
+# 2. 复制到全局或项目级 skill 目录
+cp -r html-skills/skills/* ~/.trae-cn/skills/        # 全局（Trae CN）
+cp -r html-skills/skills/* <你的项目>/.trae/skills/  # 当前项目
 ```
-
-更新时重复第 2 步即可。
 
 ## 性能基线
 
